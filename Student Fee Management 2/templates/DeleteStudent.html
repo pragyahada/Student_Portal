@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Confirm Deletion - StudyNest</title>
+
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Playfair+Display:wght@500;700;900&display=swap" rel="stylesheet" />
+
+    <style>
+        :root {
+            --color-navy: #1e3a8a;
+            --color-gold: #d97706;
+            --color-cream: #f8fafc;
+        }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            color: #334155;
+            background-color: var(--color-cream);
+        }
+
+        h1, h2, h3, h4, .serif-font {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Academic Card Styling */
+        .academic-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-top: 5px solid #dc2626;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Dropdown Styling */
+        .nav-link { font-weight: 500; color: #1e3a8a; transition: color 0.2s; cursor: pointer; }
+        .nav-link:hover { color: #d97706; }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            background-color: white;
+            min-width: 200px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e2e8f0;
+            border-top: 3px solid var(--color-gold);
+            z-index: 50;
+        }
+
+        .dropdown-menu a {
+            display: block;
+            padding: 12px 16px;
+            color: #334155;
+            font-size: 0.9rem;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .dropdown-menu a:hover { background-color: #f8fafc; color: var(--color-navy); }
+        .dropdown.show .dropdown-menu { display: block; }
+
+        /* Buttons */
+        .btn-navy { background-color: var(--color-navy); color: white; transition: background-color 0.2s; }
+        .btn-navy:hover { background-color: #172554; }
+
+        .btn-danger { background-color: #dc2626; color: white; transition: background-color 0.2s; }
+        .btn-danger:hover { background-color: #b91c1c; }
+
+        .btn-outline {
+            border: 1px solid #cbd5e1;
+            color: #475569;
+            background: white;
+            transition: all 0.2s;
+        }
+        .btn-outline:hover { border-color: var(--color-navy); color: var(--color-navy); }
+
+        /* Modal backdrop */
+        .modal-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(30, 58, 138, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+        }
+
+        .modal {
+            transform: scale(0.95);
+            opacity: 0;
+            transition: transform 0.2s ease-out, opacity 0.2s ease-out;
+        }
+
+        .modal.show { transform: scale(1); opacity: 1; }
+
+        /* Mobile Menu */
+        .mobile-menu { display: none; }
+        .mobile-menu.active { display: block; }
+        .mobile-dropdown { display: none; padding-left: 1rem; background: #f8fafc; }
+        .mobile-dropdown.open { display: block; }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+
+    <div class="bg-blue-950 text-slate-300 py-2 px-6 text-sm hidden md:block">
+        <div class="container mx-auto flex justify-between items-center">
+            <span>Administrative Control Panel</span>
+            <div class="flex gap-6">
+                <a href="mailto:support@studynest.com" class="hover:text-white">support@studynest.com</a>
+                <span class="text-slate-500">|</span>
+                <span class="hover:text-white">System Status: Online</span>
+            </div>
+        </div>
+    </div>
+
+    <nav class="bg-white border-b border-slate-200 sticky top-0 z-50">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+
+            <a class="flex items-center gap-3" href="/">
+
+                <div class="flex flex-col">
+                    <span class="text-2xl font-bold text-blue-950 leading-none serif-font">StudyNest</span>
+                    <span class="text-xs text-amber-600 font-bold uppercase tracking-widest">Admin Portal</span>
+                </div>
+            </a>
+
+            <div class="hidden lg:flex items-center gap-6">
+                <a href="admin_home" class="nav-link">Home</a>
+
+                <div class="relative dropdown">
+                    <button class="nav-link flex items-center gap-1" onclick="toggleDropdown('adminDropdown', event)">
+                        Admin <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div id="adminDropdown" class="dropdown-menu">
+                        <a href="admin_profile">Edit Profile</a>
+                        <a href="admin_reg">Register Admin</a>
+                        <a href="show_admins">All Administrators</a>
+                    </div>
+                </div>
+
+                <div class="relative dropdown">
+                    <button class="nav-link flex items-center gap-1" onclick="toggleDropdown('accountantDropdown', event)">
+                        Accountant <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div id="accountantDropdown" class="dropdown-menu">
+                        <a href="accountant_reg">Register Accountant</a>
+                        <a href="show_accountants">Manage Accountants</a>
+                    </div>
+                </div>
+
+                <div class="relative dropdown">
+                    <button class="nav-link flex items-center gap-1" onclick="toggleDropdown('studentDropdown', event)">
+                        Student <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div id="studentDropdown" class="dropdown-menu">
+                        <a href="student_reg_admin">Register Student</a>
+                        <a href="show_students_admin">Student Data</a>
+                    </div>
+                </div>
+
+                <a href="show_transaction" class="nav-link">Transactions</a>
+            </div>
+
+            <div class="hidden lg:flex items-center gap-4">
+                <span class="text-sm font-bold text-blue-950 uppercase tracking-wide border-r border-slate-300 pr-4">Administrator</span>
+                <a href="{{ url_for('logout') }}" class="px-5 py-2 border border-blue-900 text-blue-900 font-semibold rounded hover:bg-blue-900 hover:text-white transition-colors text-sm">
+                    Logout
+                </a>
+            </div>
+
+            <button id="mobileMenuBtn" class="lg:hidden text-blue-950 p-2" onclick="toggleMobileMenu()">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+            </button>
+        </div>
+
+        <div id="mobileMenu" class="mobile-menu bg-white border-b border-slate-200 lg:hidden">
+            <div class="flex flex-col">
+                <a href="admin_home" class="block px-6 py-3 text-slate-700 font-medium border-b border-slate-100">Home</a>
+                <button onclick="toggleMobileDropdown('mobAdmin')" class="w-full text-left px-6 py-3 text-slate-700 font-medium border-b border-slate-100 flex justify-between">
+                    Admin <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </button>
+                <div id="mobAdmin" class="mobile-dropdown">
+                    <a href="admin_profile" class="block py-2 text-sm text-slate-600">Edit Profile</a>
+                    <a href="admin_reg" class="block py-2 text-sm text-slate-600">Register Admin</a>
+                    <a href="show_admins" class="block py-2 text-sm text-slate-600">All Admins</a>
+                </div>
+                <a href="{{ url_for('logout') }}" class="block px-6 py-3 text-red-700 font-bold bg-slate-50">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-grow py-12 px-4 sm:px-6 lg:px-8 flex items-start justify-center">
+        {% if vgt %}
+        <div class="max-w-lg w-full">
+
+            <div class="mb-6">
+                <a href="show_students_admin" class="inline-flex items-center gap-2 text-sm text-slate-500 hover:text-blue-900 font-medium transition-colors">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                    Back to Student List
+                </a>
+            </div>
+
+            <div class="academic-card rounded-lg overflow-hidden">
+                <div class="bg-red-50 border-b border-red-100 px-8 py-6 flex items-center gap-4">
+                    <div class="w-12 h-12 bg-red-100 text-red-700 rounded-full flex items-center justify-center border border-red-200">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                    </div>
+                    <div>
+                        <h2 class="text-xl font-bold text-red-800 serif-font">Delete Student Record</h2>
+                        <p class="text-xs text-red-600 uppercase tracking-wide mt-1">Irreversible Action</p>
+                    </div>
+                </div>
+
+                <div class="p-8">
+                    <div class="bg-red-50 border-l-4 border-red-500 p-4 mb-6">
+                        <div class="flex">
+                            <div class="flex-shrink-0">
+                                <svg class="h-5 w-5 text-red-500" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                                </svg>
+                            </div>
+                            <div class="ml-3">
+                                <p class="text-sm text-red-700">
+                                    WARNING: This action is permanent. All student records, course data, and payment information will be erased.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4 mb-8">
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="bg-slate-50 p-3 rounded border border-slate-200">
+                                <p class="text-xs font-bold text-slate-400 uppercase">Student ID</p>
+                                <p class="font-mono font-bold text-slate-800 break-all">{{ vgt[0] }}</p>
+                            </div>
+                            <div class="bg-slate-50 p-3 rounded border border-slate-200">
+                                <p class="text-xs font-bold text-slate-400 uppercase">Full Name</p>
+                                <p class="font-bold text-slate-800">{{ vgt[1] }}</p>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-50 p-3 rounded border border-slate-200">
+                            <p class="text-xs font-bold text-slate-400 uppercase">Contact</p>
+                            <p class="font-bold text-slate-800">{{ vgt[6] }}</p>
+                        </div>
+
+                        <div class="bg-slate-50 p-3 rounded border border-slate-200">
+                            <p class="text-xs font-bold text-slate-400 uppercase">Email Address</p>
+                            <p class="font-bold text-slate-800 break-all">{{ vgt[7] }}</p>
+                        </div>
+                    </div>
+
+                    <div class="text-center">
+                        <button onclick="openModal()" class="w-full btn-danger py-3 rounded text-sm font-bold uppercase tracking-wider shadow-sm flex items-center justify-center gap-2">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                            Proceed to Delete
+                        </button>
+                    </div>
+
+                    <form id="deleteForm" action="/delete_student1" method="post" class="hidden">
+                        {% if csrf_token %}
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                        {% endif %}
+                        <input type="hidden" name="T1" value="{{ vgt[7] }}">
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div id="confirmationModal" class="modal-backdrop hidden">
+            <div class="modal bg-white p-8 rounded-lg shadow-2xl max-w-sm w-full border-t-4 border-red-600 mx-4">
+                <h2 class="text-2xl font-bold text-red-600 mb-4 flex items-center serif-font">
+                    Confirm Action
+                </h2>
+                <p class="text-slate-600 mb-6 text-sm leading-relaxed">
+                    This is a <strong>permanent action</strong>. The student record <span class="font-mono text-red-600 font-bold bg-red-50 px-2 py-1 rounded">{{ vgt[1] }}</span> will be erased from the database.
+                </p>
+                <div class="flex justify-end gap-3 pt-4 border-t border-slate-100">
+                    <button onclick="closeModal()" class="btn-outline px-4 py-2 rounded text-sm font-bold">
+                        Cancel
+                    </button>
+                    <button onclick="submitDelete()" class="btn-danger px-4 py-2 rounded text-sm font-bold shadow-sm">
+                        Delete Permanently
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        {% elif msg %}
+        <div class="max-w-md w-full academic-card p-8 text-center rounded-lg border-t-green-600">
+            <div class="w-16 h-16 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-4 text-green-600">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+            </div>
+            <h3 class="text-xl font-bold text-blue-950 serif-font mb-2">Status Update</h3>
+            <p class="text-slate-600 mb-6">{{ msg }}</p>
+            <a href="show_students_admin" class="btn-navy px-6 py-2 rounded text-sm font-semibold">Return to Student List</a>
+        </div>
+        {% endif %}
+    </main>
+
+    <footer class="bg-blue-950 text-slate-400 mt-auto">
+        <div class="container mx-auto px-6 py-8">
+            <div class="text-center text-sm">
+                <span class="text-white font-bold serif-font">StudyNest</span> &copy; 2025 All Rights Reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Navigation Dropdown Functions
+        function toggleDropdown(id, event) {
+            event.stopPropagation();
+            const dropdowns = document.querySelectorAll('.dropdown');
+            const targetDropdown = document.getElementById(id).parentElement;
+
+            dropdowns.forEach(dropdown => {
+                if (dropdown !== targetDropdown) {
+                    dropdown.classList.remove('show');
+                }
+            });
+            targetDropdown.classList.toggle('show');
+        }
+
+        window.addEventListener('click', function(event) {
+            if (!event.target.closest('.dropdown')) {
+                document.querySelectorAll('.dropdown').forEach(dropdown => {
+                    dropdown.classList.remove('show');
+                });
+            }
+        });
+
+        // Mobile Menu Toggle
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('active');
+        }
+
+        function toggleMobileDropdown(id) {
+            const dropdown = document.getElementById(id);
+            dropdown.classList.toggle('open');
+        }
+
+        // --- UPDATED MODAL FUNCTIONS ---
+        // We ensure 'modal' exists before trying to access it (prevents errors on Success page)
+        const modal = document.getElementById('confirmationModal');
+
+        function openModal() {
+            if (modal) {
+                const modalContent = modal.querySelector('.modal');
+                modal.classList.remove('hidden');
+                setTimeout(() => {
+                    modalContent.classList.add('show');
+                }, 10);
+            }
+        }
+
+        function closeModal() {
+            if (modal) {
+                const modalContent = modal.querySelector('.modal');
+                modalContent.classList.remove('show');
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                }, 200);
+            }
+        }
+
+        function submitDelete() {
+            const form = document.getElementById('deleteForm');
+            if(form) form.submit();
+        }
+
+        // Only add Event Listeners if the modal actually exists on the page
+        if (modal) {
+            // Close modal if user clicks outside
+            modal.addEventListener('click', function(event) {
+                if (event.target === modal) {
+                    closeModal();
+                }
+            });
+
+            // Close modal on Escape key
+            document.addEventListener('keydown', function(event) {
+                if (event.key === 'Escape') {
+                    if (!modal.classList.contains('hidden')) {
+                        closeModal();
+                    }
+                }
+            });
+        }
+
+        // Escape key for menus (global)
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('show'));
+                const mobileMenu = document.getElementById('mobileMenu');
+                if(mobileMenu) mobileMenu.classList.remove('active');
+            }
+        });
+
+        // Close mobile menu on resize
+        window.addEventListener('resize', function() {
+            if (window.innerWidth >= 1024) {
+                const mobileMenu = document.getElementById('mobileMenu');
+                if(mobileMenu) mobileMenu.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Status - StudyNest</title>
+
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Playfair+Display:wght@500;700;900&display=swap" rel="stylesheet" />
+
+    <style>
+        :root {
+            --color-navy: #1e3a8a;
+            --color-gold: #d97706;
+            --color-cream: #f8fafc;
+        }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            color: #334155;
+            background-color: var(--color-cream);
+        }
+
+        h1, h2, h3, h4, .serif-font {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Academic Card Styling */
+        .academic-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-top: 5px solid var(--color-navy);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Dropdown Styling */
+        .nav-link {
+            font-weight: 500;
+            color: #1e3a8a;
+            transition: color 0.2s;
+        }
+        .nav-link:hover {
+            color: #d97706;
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            background-color: white;
+            min-width: 200px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e2e8f0;
+            border-top: 3px solid var(--color-gold);
+            z-index: 50;
+        }
+
+        .dropdown-menu a {
+            display: block;
+            padding: 12px 16px;
+            color: #334155;
+            font-size: 0.9rem;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .dropdown-menu a:hover {
+            background-color: #f8fafc;
+            color: var(--color-navy);
+        }
+
+        .dropdown.show .dropdown-menu {
+            display: block;
+        }
+
+        /* Buttons */
+        .btn-navy {
+            background-color: var(--color-navy);
+            color: white;
+            transition: background-color 0.2s;
+        }
+        .btn-navy:hover {
+            background-color: #172554;
+        }
+
+        .btn-outline {
+            border: 1px solid #cbd5e1;
+            color: #475569;
+            background: white;
+            transition: all 0.2s;
+        }
+        .btn-outline:hover {
+            border-color: var(--color-navy);
+            color: var(--color-navy);
+        }
+
+        /* Mobile Menu */
+        .mobile-menu { display: none; }
+        .mobile-menu.active { display: block; }
+        .mobile-dropdown { display: none; padding-left: 1rem; background: #f8fafc; }
+        .mobile-dropdown.open { display: block; }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+
+    <div class="bg-blue-950 text-slate-300 py-2 px-6 text-sm hidden md:block">
+        <div class="container mx-auto flex justify-between items-center">
+            <span>Administrative Control Panel</span>
+            <div class="flex gap-6">
+                <a href="mailto:support@studynest.com" class="hover:text-white">support@studynest.com</a>
+                <span class="text-slate-500">|</span>
+                <span class="hover:text-white">System Status: Online</span>
+            </div>
+        </div>
+    </div>
+
+    <nav class="bg-white border-b border-slate-200 sticky top-0 z-50">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+
+            <a class="flex items-center gap-3" href="/">
+
+                <div class="flex flex-col">
+                    <span class="text-2xl font-bold text-blue-950 leading-none serif-font">StudyNest</span>
+                    <span class="text-xs text-amber-600 font-bold uppercase tracking-widest">Admin Portal</span>
+                </div>
+            </a>
+
+            <div class="hidden lg:flex items-center gap-6">
+                <a href="admin_home" class="nav-link">Home</a>
+
+                <div class="relative dropdown">
+                    <button class="nav-link flex items-center gap-1" onclick="toggleDropdown('adminDropdown', event)">
+                        Admin <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div id="adminDropdown" class="dropdown-menu">
+                        <a href="admin_profile">Edit Profile</a>
+                        <a href="admin_reg">Register Admin</a>
+                        <a href="show_admins">All Administrators</a>
+                    </div>
+                </div>
+
+                <div class="relative dropdown">
+                    <button class="nav-link flex items-center gap-1" onclick="toggleDropdown('accountantDropdown', event)">
+                        Accountant <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div id="accountantDropdown" class="dropdown-menu">
+                        <a href="accountant_reg">Register Accountant</a>
+                        <a href="show_accountants">Manage Accountants</a>
+                    </div>
+                </div>
+
+                <div class="relative dropdown">
+                    <button class="nav-link flex items-center gap-1" onclick="toggleDropdown('studentDropdown', event)">
+                        Student <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div id="studentDropdown" class="dropdown-menu">
+                        <a href="student_reg_admin">Register Student</a>
+                        <a href="show_students_admin">Student Data</a>
+                    </div>
+                </div>
+
+                <a href="show_transaction" class="nav-link">Transactions</a>
+            </div>
+
+            <div class="hidden lg:flex items-center gap-4">
+                <span class="text-sm font-bold text-blue-950 uppercase tracking-wide border-r border-slate-300 pr-4">Administrator</span>
+                <a href="{{ url_for('logout') }}" class="px-5 py-2 border border-blue-900 text-blue-900 font-semibold rounded hover:bg-blue-900 hover:text-white transition-colors text-sm">
+                    Logout
+                </a>
+            </div>
+
+            <button id="mobileMenuBtn" class="lg:hidden text-blue-950 p-2" onclick="toggleMobileMenu()">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+            </button>
+        </div>
+
+        <div id="mobileMenu" class="mobile-menu bg-white border-b border-slate-200 lg:hidden">
+            <div class="flex flex-col">
+                <a href="admin_home" class="block px-6 py-3 text-slate-700 font-medium border-b border-slate-100">Home</a>
+
+                <button onclick="toggleMobileDropdown('mobAdmin')" class="w-full text-left px-6 py-3 text-slate-700 font-medium border-b border-slate-100 flex justify-between">
+                    Admin <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </button>
+                <div id="mobAdmin" class="mobile-dropdown">
+                    <a href="admin_profile" class="block py-2 text-sm text-slate-600">Edit Profile</a>
+                    <a href="admin_reg" class="block py-2 text-sm text-slate-600">Register Admin</a>
+                    <a href="show_admins" class="block py-2 text-sm text-slate-600">All Admins</a>
+                </div>
+
+                <button onclick="toggleMobileDropdown('mobAcc')" class="w-full text-left px-6 py-3 text-slate-700 font-medium border-b border-slate-100 flex justify-between">
+                    Accountant <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </button>
+                <div id="mobAcc" class="mobile-dropdown">
+                    <a href="accountant_reg" class="block py-2 text-sm text-slate-600">Register Accountant</a>
+                    <a href="show_accountants" class="block py-2 text-sm text-slate-600">Manage Accountants</a>
+                </div>
+
+                <button onclick="toggleMobileDropdown('mobStu')" class="w-full text-left px-6 py-3 text-slate-700 font-medium border-b border-slate-100 flex justify-between">
+                    Student <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </button>
+                <div id="mobStu" class="mobile-dropdown">
+                    <a href="student_reg_admin" class="block py-2 text-sm text-slate-600">Register Student</a>
+                    <a href="show_students_admin" class="block py-2 text-sm text-slate-600">Student Data</a>
+                </div>
+
+                <a href="show_transaction" class="block px-6 py-3 text-slate-700 font-medium border-b border-slate-100">Transactions</a>
+                <a href="{{ url_for('logout') }}" class="block px-6 py-3 text-red-700 font-bold bg-slate-50">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-grow flex items-center justify-center px-4 py-12">
+        <div class="max-w-md w-full">
+
+            <div class="academic-card rounded-lg overflow-hidden p-8 text-center">
+
+                <div class="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6 {% if result == 'success' %}bg-green-50 text-green-600 border border-green-100{% else %}bg-red-50 text-red-600 border border-red-100{% endif %}">
+                    {% if result == 'success' %}
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                    {% else %}
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    {% endif %}
+                </div>
+
+                <h1 class="text-2xl font-bold text-blue-950 serif-font mb-2">
+                    {% if result == 'success' %}Upload Successful{% else %}Upload Failed{% endif %}
+                </h1>
+
+                <p class="text-sm text-slate-500 mb-6">
+                    {% if result == 'success' %}
+                        Your profile photo has been updated successfully.
+                    {% elif result == 'duplicate' %}
+                        A photo with this filename already exists.
+                    {% else %}
+                        There was an error processing your request. Please try again.
+                    {% endif %}
+                </p>
+
+                <div class="flex flex-col gap-3">
+                    <a href="admin_home" class="block w-full btn-navy py-3 rounded text-sm font-bold uppercase tracking-wider shadow-sm">
+                        Go to Dashboard
+                    </a>
+                    <a href="adminphoto" class="block w-full btn-outline py-3 rounded text-sm font-bold uppercase tracking-wider text-center">
+                        Try Again
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="bg-blue-950 text-slate-400 mt-auto">
+        <div class="container mx-auto px-6 py-8">
+            <div class="text-center text-sm">
+                <span class="text-white font-bold serif-font">StudyNest</span> &copy; 2025 All Rights Reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Desktop Dropdown
+        function toggleDropdown(id, event) {
+            event.stopPropagation();
+            const dropdowns = document.querySelectorAll('.dropdown');
+            const targetDropdown = document.getElementById(id).parentElement;
+
+            dropdowns.forEach(dropdown => {
+                if (dropdown !== targetDropdown) {
+                    dropdown.classList.remove('show');
+                }
+            });
+            targetDropdown.classList.toggle('show');
+        }
+
+        // Close dropdowns
+        window.addEventListener('click', function(event) {
+            if (!event.target.closest('.dropdown')) {
+                document.querySelectorAll('.dropdown').forEach(dropdown => {
+                    dropdown.classList.remove('show');
+                });
+            }
+        });
+
+        // Mobile Menu
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('active');
+        }
+
+        function toggleMobileDropdown(id) {
+            const dropdown = document.getElementById(id);
+            dropdown.classList.toggle('open');
+        }
+
+        // Close mobile menu on resize
+        window.addEventListener('resize', function() {
+            if (window.innerWidth >= 1024) {
+                document.getElementById('mobileMenu').classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>

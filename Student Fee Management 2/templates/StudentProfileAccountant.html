@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Student Financial Record - StudyNest</title>
+
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Playfair+Display:wght@500;700;900&display=swap" rel="stylesheet" />
+
+    <style>
+        :root {
+            --color-navy: #1e3a8a;
+            --color-gold: #d97706;
+            --color-cream: #f8fafc;
+        }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            color: #334155;
+            background-color: var(--color-cream);
+        }
+
+        h1, h2, h3, h4, .serif-font {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Academic Card Styling */
+        .academic-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-top: 5px solid var(--color-navy);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Table Styling */
+        .academic-table thead {
+            background-color: #f1f5f9;
+            color: #1e3a8a;
+            border-bottom: 2px solid var(--color-navy);
+        }
+
+        .academic-table th {
+            font-family: 'Playfair Display', serif;
+            letter-spacing: 0.05em;
+            padding: 1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+        }
+
+        .academic-table tbody tr {
+            border-bottom: 1px solid #e2e8f0;
+            transition: background-color 0.2s;
+        }
+
+        .academic-table tbody tr:hover {
+            background-color: #f8fafc;
+        }
+
+        .academic-table td {
+            vertical-align: middle;
+            padding: 1rem;
+            font-size: 0.9rem;
+        }
+
+        /* Stats Cards */
+        .stat-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            padding: 1.5rem;
+            text-align: center;
+            border-bottom: 4px solid var(--color-gold);
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #64748b;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .stat-value {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--color-navy);
+        }
+
+        /* Navigation Links */
+        .nav-link {
+            font-weight: 500;
+            color: #1e3a8a;
+            transition: color 0.2s;
+        }
+        .nav-link:hover {
+            color: #d97706;
+        }
+
+        /* Buttons */
+        .btn-navy {
+            background-color: var(--color-navy);
+            color: white;
+            transition: background-color 0.2s;
+        }
+        .btn-navy:hover {
+            background-color: #172554;
+        }
+
+        .btn-outline {
+            border: 1px solid #cbd5e1;
+            color: #475569;
+            background: white;
+            transition: all 0.2s;
+        }
+        .btn-outline:hover {
+            border-color: var(--color-navy);
+            color: var(--color-navy);
+        }
+
+        /* Print Styles */
+        @media print {
+            .no-print { display: none !important; }
+            body { background: white; }
+            .academic-card { box-shadow: none; border: 1px solid #000; }
+        }
+
+        /* Mobile Menu */
+        .mobile-menu { display: none; }
+        .mobile-menu.active { display: block; }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+
+    <div class="bg-blue-950 text-slate-300 py-2 px-6 text-sm hidden md:block no-print">
+        <div class="container mx-auto flex justify-between items-center">
+            <span>Financial Administration Portal</span>
+            <div class="flex gap-6">
+                <a href="mailto:support@studynest.com" class="hover:text-white">support@studynest.com</a>
+                <span class="text-slate-500">|</span>
+                <span class="hover:text-white">System Status: Online</span>
+            </div>
+        </div>
+    </div>
+
+    <nav class="bg-white border-b border-slate-200 sticky top-0 z-50 no-print">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+
+            <a class="flex items-center gap-3" href="/">
+
+                <div class="flex flex-col">
+                    <span class="text-2xl font-bold text-blue-950 leading-none serif-font">StudyNest</span>
+                    <span class="text-xs text-amber-600 font-bold uppercase tracking-widest">Accountant Portal</span>
+                </div>
+            </a>
+
+            <div class="hidden lg:flex items-center gap-8">
+                <a href="accountant_home" class="nav-link">Home</a>
+                <a href="student_reg_accountant" class="nav-link">Student Registration</a>
+                <a href="show_students_accountant" class="nav-link font-bold text-amber-600">Student Data</a>
+            </div>
+
+            <div class="hidden lg:flex items-center gap-4">
+                <span class="text-sm font-bold text-blue-950 uppercase tracking-wide border-r border-slate-300 pr-4">Accountant</span>
+                <a href="{{ url_for('logout') }}" class="px-5 py-2 border border-blue-900 text-blue-900 font-semibold rounded hover:bg-blue-900 hover:text-white transition-colors text-sm">
+                    Logout
+                </a>
+            </div>
+
+            <button id="mobileMenuBtn" class="lg:hidden text-blue-950 p-2" onclick="toggleMobileMenu()">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+            </button>
+        </div>
+
+        <div id="mobileMenu" class="mobile-menu bg-white border-b border-slate-200 lg:hidden">
+            <div class="flex flex-col p-4 space-y-4">
+                <a href="accountant_home" class="text-slate-700 font-medium hover:text-blue-900">Home</a>
+                <a href="student_reg_accountant" class="text-slate-700 font-medium hover:text-blue-900">Student Registration</a>
+                <a href="show_students_accountant" class="text-blue-900 font-bold">Student Data</a>
+                <hr class="border-slate-200">
+                <div class="flex items-center gap-3 py-2">
+                    <div class="w-8 h-8 bg-blue-950 rounded-full flex items-center justify-center text-white text-xs font-bold">AC</div>
+                    <span class="text-sm font-bold text-blue-950">Accountant</span>
+                </div>
+                <a href="{{ url_for('logout') }}" class="text-center w-full py-3 bg-red-800 text-white font-bold rounded">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-grow py-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-6xl mx-auto space-y-8">
+
+            <div class="flex flex-col sm:flex-row justify-between items-center gap-4 bg-white p-4 rounded border border-slate-200 shadow-sm no-print">
+                <a href="show_students_accountant" class="flex items-center gap-2 text-sm text-slate-600 hover:text-blue-900 font-medium transition-colors">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                    Back to Directory
+                </a>
+
+                <button onclick="window.print()" class="btn-outline px-4 py-2 rounded text-sm font-bold flex items-center gap-2">
+                    <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+                    Print Record
+                </button>
+            </div>
+
+            {% if data %}
+            <div class="academic-card rounded-lg overflow-hidden">
+                <div class="bg-slate-50 border-b border-slate-200 px-8 py-6 flex flex-col md:flex-row justify-between items-center gap-4">
+                    <div class="flex items-center gap-4">
+                        <div class="w-16 h-16 bg-blue-950 rounded-full flex items-center justify-center text-white text-2xl font-bold serif-font border-4 border-white shadow-sm">
+                            {{ data[1][:1].upper() }}
+                        </div>
+                        <div>
+                            <h2 class="text-2xl font-bold text-blue-950 serif-font">{{ data[1] }}</h2>
+                            <p class="text-xs text-slate-500 uppercase tracking-wide">Student ID: <span class="font-mono text-slate-700 font-bold">{{ data[0] }}</span></p>
+                        </div>
+                    </div>
+
+                    <form method="post" action="add_course" class="no-print">
+                        <input type="hidden" value="{{ data[0] }}" name="H1">
+                        <input type="hidden" value="{{ data[1] }}" name="H2">
+                        <button type="submit" class="btn-navy px-6 py-2 rounded text-sm font-bold shadow-sm flex items-center gap-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                            Enroll New Course
+                        </button>
+                    </form>
+                </div>
+
+                <div class="p-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div>
+                        <span class="block text-xs font-bold text-slate-400 uppercase tracking-wide">Contact</span>
+                        <span class="block text-slate-800 mt-1">{{ data[6] }}</span>
+                    </div>
+                    <div>
+                        <span class="block text-xs font-bold text-slate-400 uppercase tracking-wide">Email</span>
+                        <span class="block text-slate-800 mt-1 break-words">{{ data[7] }}</span>
+                    </div>
+                    <div>
+                        <span class="block text-xs font-bold text-slate-400 uppercase tracking-wide">Gender</span>
+                        <span class="block text-slate-800 mt-1">{{ data[2] }}</span>
+                    </div>
+                    <div>
+                        <span class="block text-xs font-bold text-slate-400 uppercase tracking-wide">Joining Date</span>
+                        <span class="block text-slate-800 mt-1">{{ data[3] }}</span>
+                    </div>
+                    <div>
+                        <span class="block text-xs font-bold text-slate-400 uppercase tracking-wide">Father's Name</span>
+                        <span class="block text-slate-800 mt-1">{{ data[4] }}</span>
+                    </div>
+                    <div>
+                        <span class="block text-xs font-bold text-slate-400 uppercase tracking-wide">Mother's Name</span>
+                        <span class="block text-slate-800 mt-1">{{ data[5] }}</span>
+                    </div>
+                    <div class="md:col-span-2">
+                        <span class="block text-xs font-bold text-slate-400 uppercase tracking-wide">Residential Address</span>
+                        <span class="block text-slate-800 mt-1">{{ data[8] }}</span>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            {% if result %}
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="stat-card rounded-lg">
+                    <span class="stat-label">Total Fees</span>
+                    <span class="stat-value">₹{{ total }}</span>
+                </div>
+                <div class="stat-card rounded-lg border-b-green-600">
+                    <span class="stat-label">Total Paid</span>
+                    <span class="stat-value text-green-700">₹{{ paid }}</span>
+                </div>
+                <div class="stat-card rounded-lg border-b-red-600">
+                    <span class="stat-label">Outstanding Due</span>
+                    <span class="stat-value text-red-700">₹{{ total_due }}</span>
+                </div>
+            </div>
+            {% endif %}
+
+            <div class="academic-card rounded-lg overflow-hidden">
+                <div class="bg-slate-50 border-b border-slate-200 px-6 py-4">
+                    <h3 class="text-lg font-bold text-blue-950 serif-font">Course Enrollment & Fees</h3>
+                </div>
+
+                {% if result %}
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left academic-table">
+                        <thead>
+                            <tr>
+                                <th class="w-1/4">Course Name</th>
+                                <th>Total Fee</th>
+                                <th>Paid</th>
+                                <th>Due</th>
+                                <th class="text-center no-print">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for d in result %}
+                            <tr>
+                                <td>
+                                    <div class="font-bold text-blue-900">{{ d[3] }}</div>
+                                    <div class="text-xs text-slate-500 font-mono">ID: {{ d[0] }}</div>
+                                </td>
+                                <td class="font-medium text-slate-700">₹{{ d[4] }}</td>
+                                <td class="font-medium text-green-700">₹{{ d[5] }}</td>
+                                <td class="font-bold {% if d[6] > 0 %}text-red-700{% else %}text-slate-400{% endif %}">₹{{ d[6] }}</td>
+                                <td class="text-center no-print space-x-2">
+                                    <form method="post" action="deposit" class="inline-block">
+                                        <input type="hidden" value="{{ data[0] }}" name="H1">
+                                        <input type="hidden" value="{{ data[1] }}" name="H2">
+                                        <input type="hidden" value="{{ d[0] }}" name="H3">
+                                        <input type="hidden" value="{{ d[3] }}" name="H4">
+                                        <button type="submit" class="bg-blue-900 hover:bg-blue-800 text-white text-xs font-bold py-1 px-3 rounded transition-colors uppercase tracking-wider">
+                                            Add Fee
+                                        </button>
+                                    </form>
+
+                                    <form method="post" action="delete_course" class="inline-block" onsubmit="return confirm('Are you sure you want to remove this course? This cannot be undone.');">
+                                        <input type="hidden" value="{{ d[0] }}" name="H1">
+                                        <button type="submit" class="text-red-600 hover:text-red-800 text-xs font-bold uppercase tracking-wider underline">
+                                            Remove
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <div class="p-8 text-center text-slate-500 italic">
+                    No courses enrolled yet. Use the "Enroll New Course" button to begin.
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="academic-card rounded-lg overflow-hidden">
+                <div class="bg-slate-50 border-b border-slate-200 px-6 py-4">
+                    <h3 class="text-lg font-bold text-blue-950 serif-font">Payment History</h3>
+                </div>
+
+                {% if deposit %}
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left academic-table">
+                        <thead>
+                            <tr>
+                                <th>Trans. ID</th>
+                                <th>Course</th>
+                                <th>Amount</th>
+                                <th>Date</th>
+                                <th>Method</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for d in deposit %}
+                            <tr>
+                                <td class="font-mono text-xs text-slate-500">{{ d[0] }}</td>
+                                <td class="text-slate-700">{{ d[4] }}</td>
+                                <td class="font-bold text-green-700">+ ₹{{ d[5] }}</td>
+                                <td class="text-slate-600">{{ d[6] }}</td>
+                                <td><span class="bg-slate-100 text-slate-600 px-2 py-1 rounded text-xs font-bold uppercase">{{ d[7] }}</span></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% elif msg %}
+                <div class="p-6 text-center text-red-600 border-t border-red-100 bg-red-50">
+                    {{ msg }}
+                </div>
+                {% else %}
+                <div class="p-8 text-center text-slate-500 italic">
+                    No payment transactions recorded.
+                </div>
+                {% endif %}
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="bg-blue-950 text-slate-400 mt-auto no-print">
+        <div class="container mx-auto px-6 py-8">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+                <div class="text-sm">
+                    <span class="text-white font-bold serif-font">StudyNest</span> &copy; 2025
+                </div>
+                <div class="flex gap-6 text-sm">
+                    <a href="#" class="hover:text-amber-500 transition-colors">Privacy Policy</a>
+                    <a href="#" class="hover:text-amber-500 transition-colors">Financial Terms</a>
+                    <a href="#" class="hover:text-amber-500 transition-colors">Help</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function toggleMobileMenu() {
+            document.getElementById('mobileMenu').classList.toggle('active');
+        }
+
+        // Close menu on resize
+        window.addEventListener('resize', function() {
+            if (window.innerWidth >= 1024) {
+                document.getElementById('mobileMenu').classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>

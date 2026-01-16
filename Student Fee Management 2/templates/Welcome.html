@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>StudyNest - Academic Excellence</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Playfair+Display:wght@500;700;900&display=swap" rel="stylesheet" />
+
+    <style>
+        :root {
+            --color-navy: #1e3a8a;
+            --color-gold: #d97706;
+            --color-cream: #fffbeb;
+        }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            color: #334155;
+            background-color: #f8fafc;
+        }
+
+        h1, h2, h3, h4, .serif-font {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Static Buttons */
+        .btn-navy {
+            background-color: var(--color-navy);
+            color: white;
+            transition: background-color 0.2s;
+        }
+        .btn-navy:hover {
+            background-color: #172554;
+        }
+
+        .btn-gold {
+            background-color: var(--color-gold);
+            color: white;
+            transition: background-color 0.2s;
+        }
+        .btn-gold:hover {
+            background-color: #b45309;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu { display: none; }
+        .mobile-menu.active { display: block; }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+
+    <div class="bg-blue-950 text-slate-300 py-2 px-6 text-sm hidden md:block">
+        <div class="container mx-auto flex justify-between items-center">
+            <span>Welcome to the official StudyNest portal.</span>
+            <div class="flex gap-6">
+                <a href="mailto:support@studynest.com" class="hover:text-white">support@studynest.com</a>
+                <a href="tel:+917339842169" class="hover:text-white">+91-7339842169</a>
+            </div>
+        </div>
+    </div>
+
+    <nav class="bg-white border-b border-slate-200 sticky top-0 z-50">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+
+            <a class="flex items-center gap-3" href="/">
+                <div class="flex flex-col">
+                    <span class="text-2xl font-bold text-blue-950 leading-none serif-font">StudyNest</span>
+                    <span class="text-xs text-amber-600 font-bold uppercase tracking-widest">Academic Portal</span>
+                </div>
+            </a>
+
+            <div class="hidden md:flex items-center gap-8">
+                <a href="/" class="font-medium text-slate-600 hover:text-blue-900 transition-colors">Home</a>
+                <a href="/courses" class="font-medium text-slate-600 hover:text-blue-900 transition-colors">Courses</a>
+                <a href="/login" class="px-6 py-2 bg-blue-900 text-white font-semibold rounded hover:bg-blue-800 transition-colors">
+                     Login
+                </a>
+            </div>
+
+            <button id="menuToggle" class="md:hidden text-blue-950 p-2">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+            </button>
+        </div>
+
+        <div id="mobileMenu" class="mobile-menu bg-slate-50 border-b border-slate-200 md:hidden">
+            <div class="flex flex-col p-4 space-y-4">
+                <a href="/" class="text-slate-700 font-medium hover:text-blue-900">Home</a>
+                <a href="/courses" class="text-slate-700 font-medium hover:text-blue-900">Courses</a>
+                <hr class="border-slate-200">
+                <a href="/login" class="text-center w-full py-3 bg-blue-900 text-white font-bold rounded">Access Portal</a>
+            </div>
+        </div>
+    </nav>
+
+    <header class="bg-white">
+        <div class="container mx-auto px-6 py-20 md:py-28">
+            <div class="flex flex-col md:flex-row items-center gap-12">
+
+                <div class="flex-1 md:pr-12">
+                    <div class="w-20 h-1 bg-amber-600 mb-8"></div>
+                    <h1 class="text-5xl md:text-6xl font-bold text-blue-950 mb-6 leading-tight serif-font">
+                        Empowering <br/>
+                        <span class="text-amber-600">Future Leaders.</span>
+                    </h1>
+                    <p class="text-lg text-slate-600 mb-10 leading-relaxed max-w-xl">
+                        A comprehensive academic management system designed to streamline administration, manage fees, and track course progress with precision and integrity.
+                    </p>
+                    <div class="flex flex-wrap gap-4">
+                        <a href="/login" class="btn-navy px-8 py-3.5 rounded font-semibold text-lg shadow-sm">
+                            Access Dashboard
+                        </a>
+                        <a href="/courses" class="px-8 py-3.5 border-2 border-blue-950 text-blue-950 font-semibold text-lg rounded hover:bg-blue-50 transition-colors">
+                            View Syllabus
+                        </a>
+                    </div>
+                </div>
+
+                <div class="flex-1 w-full">
+                    <div class="relative bg-slate-100 p-2 rounded shadow-xl border border-slate-200">
+                        <div class="bg-white p-6 md:p-8">
+                            <div class="flex items-center justify-between mb-8 border-b border-slate-100 pb-4">
+                                <span class="font-bold text-blue-950 text-lg">Student Overview</span>
+                                <span class="bg-green-100 text-green-700 px-3 py-1 text-xs font-bold uppercase rounded-full">Active</span>
+                            </div>
+
+                            <div class="space-y-6">
+                                <div>
+                                    <div class="flex justify-between mb-2 text-sm font-semibold text-slate-600">
+                                        <span>Course Completion</span>
+                                        <span>75%</span>
+                                    </div>
+                                    <div class="w-full bg-slate-100 h-3 rounded-full overflow-hidden">
+                                        <div class="bg-blue-900 h-full w-3/4"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between mb-2 text-sm font-semibold text-slate-600">
+                                        <span>Fee Status</span>
+                                        <span>Paid</span>
+                                    </div>
+                                    <div class="w-full bg-slate-100 h-3 rounded-full overflow-hidden">
+                                        <div class="bg-amber-500 h-full w-full"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between mb-2 text-sm font-semibold text-slate-600">
+                                        <span>Attendance</span>
+                                        <span>92%</span>
+                                    </div>
+                                    <div class="w-full bg-slate-100 h-3 rounded-full overflow-hidden">
+                                        <div class="bg-blue-900 h-full w-[92%]"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mt-8 pt-6 border-t border-slate-100 grid grid-cols-2 gap-4">
+                                <div class="bg-slate-50 p-3 rounded border border-slate-200 text-center">
+                                    <span class="block text-2xl font-bold text-blue-950 serif-font">A+</span>
+                                    <span class="text-xs text-slate-500 uppercase">Grade Average</span>
+                                </div>
+                                <div class="bg-slate-50 p-3 rounded border border-slate-200 text-center">
+                                    <span class="block text-2xl font-bold text-blue-950 serif-font">12</span>
+                                    <span class="text-xs text-slate-500 uppercase">Active Courses</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="bg-slate-50 py-24 border-t border-slate-200">
+        <div class="container mx-auto px-6">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-amber-600 font-bold uppercase tracking-wider text-sm mb-2 block">Our Features</span>
+                <h2 class="text-4xl font-bold text-blue-950 mb-4 serif-font">Academic Administration</h2>
+                <p class="text-slate-600">Efficient tools designed to support the educational journey of students and the operational needs of administrators.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-white p-8 border-t-4 border-blue-900 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="w-12 h-12 bg-blue-50 text-blue-900 flex items-center justify-center rounded-full mb-6">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-blue-950 mb-3 serif-font">Course Curriculum</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        Access detailed course structures, download study materials, and track academic progression through our centralized system.
+                    </p>
+                    <a href="/courses" class="inline-block mt-4 text-amber-600 font-bold text-sm hover:underline">View Courses &rarr;</a>
+                </div>
+
+                <div class="bg-white p-8 border-t-4 border-amber-500 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="w-12 h-12 bg-amber-50 text-amber-600 flex items-center justify-center rounded-full mb-6">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-blue-950 mb-3 serif-font">Fee Management</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        Transparent financial tracking. View fee structures, payment history, and pending dues with complete clarity and ease.
+                    </p>
+                    <a href="/login" class="inline-block mt-4 text-amber-600 font-bold text-sm hover:underline">Check Status &rarr;</a>
+                </div>
+
+                <div class="bg-white p-8 border-t-4 border-blue-900 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="w-12 h-12 bg-blue-50 text-blue-900 flex items-center justify-center rounded-full mb-6">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-blue-950 mb-3 serif-font">Institute Records</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        A secure repository for student data, faculty information, and institutional records, ensuring data integrity at all times.
+                    </p>
+                    <a href="/login" class="inline-block mt-4 text-amber-600 font-bold text-sm hover:underline">Admin Login &rarr;</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-blue-950 text-slate-400 mt-auto">
+        <div class="container mx-auto px-6 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12">
+
+                <div class="md:col-span-2">
+                    <span class="text-2xl font-bold text-white serif-font">StudyNest</span>
+                    <p class="mt-4 text-sm leading-relaxed text-slate-400 max-w-sm">
+                        Committed to providing world-class digital infrastructure for educational institutions. Excellence in administration and student management.
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-bold mb-4 uppercase text-sm tracking-wider">Quick Links</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="/" class="hover:text-amber-500 transition-colors">Home</a></li>
+                        <li><a href="/courses" class="hover:text-amber-500 transition-colors">Course Catalog</a></li>
+                        <li><a href="/login" class="hover:text-amber-500 transition-colors">Student Login</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-bold mb-4 uppercase text-sm tracking-wider">Contact Us</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li class="flex items-center gap-2">
+                            <svg class="w-4 h-4 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                            <a href="mailto:support@studynest.com" class="hover:text-white">support@studynest.com</a>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <svg class="w-4 h-4 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
+                            <a href="tel:+917339842169" class="hover:text-white">+91-7339842169</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-blue-900 mt-12 pt-8 text-center text-xs text-slate-500">
+                &copy; 2025 StudyNest. All Rights Reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const menuToggle = document.getElementById('menuToggle');
+        const mobileMenu = document.getElementById('mobileMenu');
+        menuToggle.addEventListener('click', () => {
+            mobileMenu.classList.toggle('active');
+        });
+    </script>
+</body>
+</html>

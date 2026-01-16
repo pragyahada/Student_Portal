@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Admin Photo - StudyNest</title>
+
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Playfair+Display:wght@500;700;900&display=swap" rel="stylesheet" />
+
+    <style>
+        :root {
+            --color-navy: #1e3a8a;
+            --color-gold: #d97706;
+            --color-cream: #f8fafc;
+        }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            color: #334155;
+            background-color: var(--color-cream);
+        }
+
+        h1, h2, h3, h4, .serif-font {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Academic Card Styling */
+        .academic-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-top: 5px solid var(--color-navy);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Dropdown Styling */
+        .nav-link {
+            font-weight: 500;
+            color: #1e3a8a;
+            transition: color 0.2s;
+        }
+        .nav-link:hover {
+            color: #d97706;
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            background-color: white;
+            min-width: 200px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e2e8f0;
+            border-top: 3px solid var(--color-gold);
+            z-index: 50;
+        }
+
+        .dropdown-menu a {
+            display: block;
+            padding: 12px 16px;
+            color: #334155;
+            font-size: 0.9rem;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .dropdown-menu a:hover {
+            background-color: #f8fafc;
+            color: var(--color-navy);
+        }
+
+        .dropdown.show .dropdown-menu {
+            display: block;
+        }
+
+        /* Buttons */
+        .btn-navy {
+            background-color: var(--color-navy);
+            color: white;
+            transition: background-color 0.2s;
+        }
+        .btn-navy:hover {
+            background-color: #172554;
+        }
+
+        .btn-outline {
+            border: 1px solid #cbd5e1;
+            color: #475569;
+            background: white;
+            transition: all 0.2s;
+        }
+        .btn-outline:hover {
+            border-color: var(--color-navy);
+            color: var(--color-navy);
+        }
+
+        /* File Input Styling */
+        .file-upload-wrapper {
+            position: relative;
+            width: 100%;
+            height: 150px;
+            border: 2px dashed #cbd5e1;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #f8fafc;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        .file-upload-wrapper:hover {
+            border-color: var(--color-navy);
+            background-color: #f1f5f9;
+        }
+        .file-upload-input {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu { display: none; }
+        .mobile-menu.active { display: block; }
+        .mobile-dropdown { display: none; padding-left: 1rem; background: #f8fafc; }
+        .mobile-dropdown.open { display: block; }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+
+    <div class="bg-blue-950 text-slate-300 py-2 px-6 text-sm hidden md:block">
+        <div class="container mx-auto flex justify-between items-center">
+            <span>Administrative Control Panel</span>
+            <div class="flex gap-6">
+                <a href="mailto:support@studynest.com" class="hover:text-white">support@studynest.com</a>
+                <span class="text-slate-500">|</span>
+                <span class="hover:text-white">System Status: Online</span>
+            </div>
+        </div>
+    </div>
+
+    <nav class="bg-white border-b border-slate-200 sticky top-0 z-50">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+
+            <a class="flex items-center gap-3" href="/">
+
+                <div class="flex flex-col">
+                    <span class="text-2xl font-bold text-blue-950 leading-none serif-font">StudyNest</span>
+                    <span class="text-xs text-amber-600 font-bold uppercase tracking-widest">Admin Portal</span>
+                </div>
+            </a>
+
+            <div class="hidden lg:flex items-center gap-6">
+                <a href="admin_home" class="nav-link">Home</a>
+
+                <div class="relative dropdown">
+                    <button class="nav-link flex items-center gap-1" onclick="toggleDropdown('adminDropdown', event)">
+                        Admin <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div id="adminDropdown" class="dropdown-menu">
+                        <a href="admin_profile">Edit Profile</a>
+                        <a href="admin_reg">Register Admin</a>
+                        <a href="show_admins">All Administrators</a>
+                    </div>
+                </div>
+
+                <div class="relative dropdown">
+                    <button class="nav-link flex items-center gap-1" onclick="toggleDropdown('accountantDropdown', event)">
+                        Accountant <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div id="accountantDropdown" class="dropdown-menu">
+                        <a href="accountant_reg">Register Accountant</a>
+                        <a href="show_accountants">Manage Accountants</a>
+                    </div>
+                </div>
+
+                <div class="relative dropdown">
+                    <button class="nav-link flex items-center gap-1" onclick="toggleDropdown('studentDropdown', event)">
+                        Student <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div id="studentDropdown" class="dropdown-menu">
+                        <a href="student_reg_admin">Register Student</a>
+                        <a href="show_students_admin">Student Data</a>
+                    </div>
+                </div>
+
+                <a href="show_transaction" class="nav-link">Transactions</a>
+            </div>
+
+            <div class="hidden lg:flex items-center gap-4">
+                <span class="text-sm font-bold text-blue-950 uppercase tracking-wide border-r border-slate-300 pr-4">Administrator</span>
+                <a href="{{ url_for('logout') }}" class="px-5 py-2 border border-blue-900 text-blue-900 font-semibold rounded hover:bg-blue-900 hover:text-white transition-colors text-sm">
+                    Logout
+                </a>
+            </div>
+
+            <button id="mobileMenuBtn" class="lg:hidden text-blue-950 p-2" onclick="toggleMobileMenu()">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+            </button>
+        </div>
+
+        <div id="mobileMenu" class="mobile-menu bg-white border-b border-slate-200 lg:hidden">
+            <div class="flex flex-col">
+                <a href="admin_home" class="block px-6 py-3 text-slate-700 font-medium border-b border-slate-100">Home</a>
+
+                <button onclick="toggleMobileDropdown('mobAdmin')" class="w-full text-left px-6 py-3 text-slate-700 font-medium border-b border-slate-100 flex justify-between">
+                    Admin <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </button>
+                <div id="mobAdmin" class="mobile-dropdown">
+                    <a href="admin_profile" class="block py-2 text-sm text-slate-600">Edit Profile</a>
+                    <a href="admin_reg" class="block py-2 text-sm text-slate-600">Register Admin</a>
+                    <a href="show_admins" class="block py-2 text-sm text-slate-600">All Admins</a>
+                </div>
+
+                <button onclick="toggleMobileDropdown('mobAcc')" class="w-full text-left px-6 py-3 text-slate-700 font-medium border-b border-slate-100 flex justify-between">
+                    Accountant <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </button>
+                <div id="mobAcc" class="mobile-dropdown">
+                    <a href="accountant_reg" class="block py-2 text-sm text-slate-600">Register Accountant</a>
+                    <a href="show_accountants" class="block py-2 text-sm text-slate-600">Manage Accountants</a>
+                </div>
+
+                <button onclick="toggleMobileDropdown('mobStu')" class="w-full text-left px-6 py-3 text-slate-700 font-medium border-b border-slate-100 flex justify-between">
+                    Student <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </button>
+                <div id="mobStu" class="mobile-dropdown">
+                    <a href="student_reg_admin" class="block py-2 text-sm text-slate-600">Register Student</a>
+                    <a href="show_students_admin" class="block py-2 text-sm text-slate-600">Student Data</a>
+                </div>
+
+                <a href="show_transaction" class="block px-6 py-3 text-slate-700 font-medium border-b border-slate-100">Transactions</a>
+                <a href="{{ url_for('logout') }}" class="block px-6 py-3 text-red-700 font-bold bg-slate-50">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-grow py-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-xl mx-auto">
+
+            <div class="mb-6">
+                <a href="admin_profile" class="inline-flex items-center gap-2 text-sm text-slate-500 hover:text-blue-900 font-medium transition-colors">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                    Back to Profile
+                </a>
+            </div>
+
+            <div class="academic-card rounded-lg overflow-hidden">
+                <div class="bg-slate-50 border-b border-slate-200 px-8 py-6 flex justify-between items-center">
+                    <div>
+                        <h2 class="text-xl font-bold text-blue-950 serif-font">Update Profile Picture</h2>
+                        <p class="text-xs text-slate-500 uppercase tracking-wide mt-1">Personalize your account</p>
+                    </div>
+                    <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center text-blue-900">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                    </div>
+                </div>
+
+                <form action="{{ url_for('adminphoto1') }}" method="POST" enctype="multipart/form-data" class="p-8">
+
+                    <div class="mb-8">
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wide mb-3">Upload Image File</label>
+
+                        <div class="file-upload-wrapper" id="dropZone">
+                            <input type="file" name="F1" id="fileInput" accept="image/*" class="file-upload-input" onchange="updateFileName(this)">
+
+                            <div class="text-center pointer-events-none p-4">
+                                <div class="w-12 h-12 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                                    <svg class="w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
+                                </div>
+                                <p class="text-sm font-medium text-slate-700" id="fileName">Click to select or drag and drop</p>
+                                <p class="text-xs text-slate-400 mt-1">SVG, PNG, JPG or GIF (MAX. 5MB)</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pt-2 border-t border-slate-100 flex flex-col-reverse sm:flex-row gap-4 justify-end">
+                        <a href="admin_profile" class="btn-outline px-6 py-2.5 rounded text-sm font-bold uppercase tracking-wide text-center">
+                            Cancel
+                        </a>
+                        <button type="submit" class="btn-navy px-8 py-2.5 rounded text-sm font-bold uppercase tracking-wide shadow-sm">
+                            Upload Photo
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-blue-950 text-slate-400 mt-auto">
+        <div class="container mx-auto px-6 py-8">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+                <div class="text-sm">
+                    <span class="text-white font-bold serif-font">StudyNest</span> &copy; 2025
+                </div>
+                <div class="flex gap-6 text-sm">
+                    <a href="#" class="hover:text-amber-500 transition-colors">Privacy Policy</a>
+                    <a href="#" class="hover:text-amber-500 transition-colors">Terms of Use</a>
+                    <a href="#" class="hover:text-amber-500 transition-colors">Support</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // File Input Feedback
+        function updateFileName(input) {
+            const fileNameDisplay = document.getElementById('fileName');
+            if (input.files && input.files.length > 0) {
+                fileNameDisplay.textContent = input.files[0].name;
+                fileNameDisplay.classList.add('text-blue-900');
+            } else {
+                fileNameDisplay.textContent = 'Click to select or drag and drop';
+                fileNameDisplay.classList.remove('text-blue-900');
+            }
+        }
+
+        // Dropdown Logic
+        function toggleDropdown(id, event) {
+            event.stopPropagation();
+            const dropdowns = document.querySelectorAll('.dropdown');
+            const targetDropdown = document.getElementById(id).parentElement;
+
+            dropdowns.forEach(dropdown => {
+                if (dropdown !== targetDropdown) {
+                    dropdown.classList.remove('show');
+                }
+            });
+            targetDropdown.classList.toggle('show');
+        }
+
+        // Close dropdowns
+        window.addEventListener('click', function(event) {
+            if (!event.target.closest('.dropdown')) {
+                document.querySelectorAll('.dropdown').forEach(dropdown => {
+                    dropdown.classList.remove('show');
+                });
+            }
+        });
+
+        // Mobile Menu
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('active');
+        }
+
+        function toggleMobileDropdown(id) {
+            const dropdown = document.getElementById(id);
+            dropdown.classList.toggle('open');
+        }
+
+        // Close mobile menu on resize
+        window.addEventListener('resize', function() {
+            if (window.innerWidth >= 1024) {
+                document.getElementById('mobileMenu').classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>

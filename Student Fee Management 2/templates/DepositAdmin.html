@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fee Deposit - StudyNest</title>
+
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Playfair+Display:wght@500;700;900&display=swap" rel="stylesheet" />
+
+    <style>
+        :root {
+            --color-navy: #1e3a8a;
+            --color-gold: #d97706;
+            --color-cream: #f8fafc;
+        }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            color: #334155;
+            background-color: var(--color-cream);
+        }
+
+        h1, h2, h3, h4, .serif-font {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Academic Card Styling */
+        .academic-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-top: 5px solid var(--color-navy);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Form Controls */
+        .academic-input {
+            width: 100%;
+            padding: 0.75rem;
+            background-color: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-radius: 4px;
+            color: #334155;
+            transition: all 0.2s;
+        }
+
+        .academic-input:focus {
+            outline: none;
+            border-color: var(--color-navy);
+            box-shadow: 0 0 0 1px var(--color-navy);
+        }
+
+        .academic-input:read-only {
+            background-color: #f1f5f9;
+            color: #64748b;
+            cursor: not-allowed;
+        }
+
+        /* Dropdown Styling */
+        .nav-link {
+            font-weight: 500;
+            color: #1e3a8a;
+            transition: color 0.2s;
+        }
+        .nav-link:hover {
+            color: #d97706;
+        }
+
+        /* Buttons */
+        .btn-navy {
+            background-color: var(--color-navy);
+            color: white;
+            transition: background-color 0.2s;
+        }
+        .btn-navy:hover {
+            background-color: #172554;
+        }
+
+        .btn-outline {
+            border: 1px solid #cbd5e1;
+            color: #475569;
+            background: white;
+            transition: all 0.2s;
+        }
+        .btn-outline:hover {
+            border-color: var(--color-navy);
+            color: var(--color-navy);
+        }
+
+        /* Mobile Menu */
+        .mobile-menu { display: none; }
+        .mobile-menu.active { display: block; }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+
+    <div class="bg-blue-950 text-slate-300 py-2 px-6 text-sm hidden md:block">
+        <div class="container mx-auto flex justify-between items-center">
+            <span>Financial Administration Portal</span>
+            <div class="flex gap-6">
+                <a href="mailto:support@studynest.com" class="hover:text-white">support@studynest.com</a>
+                <span class="text-slate-500">|</span>
+                <span class="hover:text-white">System Status: Online</span>
+            </div>
+        </div>
+    </div>
+
+    <nav class="bg-white border-b border-slate-200 sticky top-0 z-50">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+
+            <a class="flex items-center gap-3" href="/">
+
+                <div class="flex flex-col">
+                    <span class="text-2xl font-bold text-blue-950 leading-none serif-font">StudyNest</span>
+                    <span class="text-xs text-amber-600 font-bold uppercase tracking-widest">Accountant Portal</span>
+                </div>
+            </a>
+
+            <div class="hidden lg:flex items-center gap-8">
+                <a href="accountant_home" class="nav-link">Home</a>
+                <a href="student_reg_accountant" class="nav-link">Student Registration</a>
+                <a href="show_students_accountant" class="nav-link text-amber-600 font-bold">Student Data</a>
+            </div>
+
+            <div class="hidden lg:flex items-center gap-4">
+                <span class="text-sm font-bold text-blue-950 uppercase tracking-wide border-r border-slate-300 pr-4">Accountant</span>
+                <a href="{{ url_for('logout') }}" class="px-5 py-2 border border-blue-900 text-blue-900 font-semibold rounded hover:bg-blue-900 hover:text-white transition-colors text-sm">
+                    Logout
+                </a>
+            </div>
+
+            <button id="mobileMenuBtn" class="lg:hidden text-blue-950 p-2" onclick="toggleMobileMenu()">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+            </button>
+        </div>
+
+        <div id="mobileMenu" class="mobile-menu bg-white border-b border-slate-200 lg:hidden">
+            <div class="flex flex-col p-4 space-y-4">
+                <a href="accountant_home" class="text-slate-700 font-medium hover:text-blue-900">Home</a>
+                <a href="student_reg_accountant" class="text-slate-700 font-medium hover:text-blue-900">Student Registration</a>
+                <a href="show_students_accountant" class="text-blue-900 font-bold">Student Data</a>
+                <hr class="border-slate-200">
+                <div class="flex items-center gap-3 py-2">
+                    <div class="w-8 h-8 bg-blue-950 rounded-full flex items-center justify-center text-white text-xs font-bold">AC</div>
+                    <span class="text-sm font-bold text-blue-950">Accountant</span>
+                </div>
+                <a href="{{ url_for('logout') }}" class="text-center w-full py-3 bg-red-800 text-white font-bold rounded">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-grow py-12 px-4 sm:px-6 lg:px-8 flex items-start justify-center">
+        <div class="max-w-2xl w-full">
+
+            <div class="mb-6">
+                <a href="show_students_accountant" class="inline-flex items-center gap-2 text-sm text-slate-500 hover:text-blue-900 font-medium transition-colors">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                    Back to Student List
+                </a>
+            </div>
+
+            <div class="academic-card rounded-lg overflow-hidden">
+                <div class="bg-slate-50 border-b border-slate-200 px-8 py-6 flex justify-between items-center">
+                    <div>
+                        <h2 class="text-xl font-bold text-blue-950 serif-font">Process Payment</h2>
+                        <p class="text-xs text-slate-500 uppercase tracking-wide mt-1">Record fee deposit</p>
+                    </div>
+                    <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center text-green-700">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                    </div>
+                </div>
+
+                <form method="post" action="deposit1" class="p-8" onsubmit="return validateForm(event)">
+
+                    <div class="bg-slate-50 border border-slate-200 rounded p-4 mb-8 grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                        <div>
+                            <span class="block text-xs font-bold text-slate-400 uppercase">Student Name</span>
+                            <span class="font-bold text-slate-800 text-lg">{{ student_name }}</span>
+                            <input type="hidden" name="H2" value="{{ student_name }}">
+                        </div>
+                        <div>
+                            <span class="block text-xs font-bold text-slate-400 uppercase">Student ID</span>
+                            <span class="font-mono font-bold text-slate-600">{{ student_id }}</span>
+                            <input type="hidden" name="H1" value="{{ student_id }}">
+                        </div>
+                        <div class="md:col-span-2 border-t border-slate-200 pt-2 mt-2">
+                            <span class="block text-xs font-bold text-slate-400 uppercase">Course Enrollment</span>
+                            <div class="flex justify-between items-center">
+                                <span class="font-medium text-slate-700">{{ course_name }}</span>
+                                <span class="font-mono text-xs text-slate-400">ID: {{ course_id }}</span>
+                            </div>
+                            <input type="hidden" name="H3" value="{{ course_id }}">
+                            <input type="hidden" name="H4" value="{{ course_name }}">
+                        </div>
+                    </div>
+
+                    <div class="space-y-6">
+                        <div>
+                            <label for="txt6" class="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wide">Deposit Amount (₹)</label>
+                            <div class="relative">
+                                <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-500 font-bold">₹</span>
+                                <input type="number" name="T2" id="txt6" required min="1" placeholder="0.00" class="academic-input pl-8">
+                            </div>
+                            <small class="text-red-600 text-xs mt-1 hidden" id="amountError">Please enter a valid amount.</small>
+                        </div>
+
+                        <div>
+                            <label for="txt7" class="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wide">Transaction Date</label>
+                            <input type="date" name="T3" id="txt7" required class="academic-input">
+                        </div>
+
+                        <div>
+                            <label for="txt8" class="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wide">Payment Method</label>
+                            <div class="relative">
+                                <select name="T4" id="txt8" required class="academic-input appearance-none">
+                                    <option disabled selected value="">-- Select Method --</option>
+                                    <option value="Credit">Credit Card</option>
+                                    <option value="Cash">Cash</option>
+                                    <option value="UPI">UPI / Net Banking</option>
+                                </select>
+                                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-slate-500">
+                                    <svg class="h-4 w-4 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 pt-6 border-t border-slate-100 flex flex-col-reverse sm:flex-row gap-4 justify-end">
+                        <a href="show_students_accountant" class="btn-outline px-6 py-2.5 rounded text-sm font-bold uppercase tracking-wide text-center">
+                            Cancel
+                        </a>
+                        <button type="submit" class="btn-navy px-8 py-2.5 rounded text-sm font-bold uppercase tracking-wide shadow-sm flex items-center justify-center gap-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            Confirm Deposit
+                        </button>
+                    </div>
+                </form>
+
+                {% if msg %}
+                <div class="px-8 pb-8">
+                    <div class="p-4 rounded border-l-4 {% if 'Successful' in msg %}bg-green-50 border-green-600 text-green-800{% else %}bg-red-50 border-red-600 text-red-800{% endif %} text-center">
+                        <p class="font-medium text-sm mb-2">{{ msg }}</p>
+                        {% if 'Successful' in msg %}
+                        <form method="post" action="student_profile_accountant" class="inline-block">
+                            <input type="hidden" value="{{ email }}" name="H1"/>
+                            <input type="hidden" value="{{ student_id }}" name="H2"/>
+                            <button type="submit" class="text-xs font-bold uppercase underline hover:text-green-900 transition-colors">
+                                View Updated Profile
+                            </button>
+                        </form>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-blue-950 text-slate-400 mt-auto">
+        <div class="container mx-auto px-6 py-8">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+                <div class="text-sm">
+                    <span class="text-white font-bold serif-font">StudyNest</span> &copy; 2025
+                </div>
+                <div class="flex gap-6 text-sm">
+                    <a href="#" class="hover:text-amber-500 transition-colors">Privacy Policy</a>
+                    <a href="#" class="hover:text-amber-500 transition-colors">Terms of Use</a>
+                    <a href="#" class="hover:text-amber-500 transition-colors">Admin Guide</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function toggleMobileMenu() {
+            document.getElementById('mobileMenu').classList.toggle('active');
+        }
+
+        function validateForm(event) {
+            const amountInput = document.getElementById('txt6');
+            const amount = parseFloat(amountInput.value);
+            const errorElement = document.getElementById('amountError');
+
+            errorElement.classList.add('hidden');
+
+            if (isNaN(amount) || amount <= 0) {
+                event.preventDefault();
+                errorElement.classList.remove('hidden');
+                amountInput.focus();
+                return false;
+            }
+            return true;
+        }
+
+        // Close mobile menu on resize
+        window.addEventListener('resize', function() {
+            if (window.innerWidth >= 1024) {
+                document.getElementById('mobileMenu').classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>
