@@ -98,6 +98,7 @@ File Uploads: Werkzeug
 Session Management: Flask Sessions
 
 📁 Project Structure
+```
 project/
 │
 ├── app.py
@@ -108,18 +109,23 @@ project/
 │   ├── *.html
 │
 └── README.md
+```
 
 ⚙️ Installation & Setup
+```
 1️⃣ Clone the Repository
 git clone https://github.com/your-username/student-management-flask.git
 cd student-management-flask
+```
 
 2️⃣ Create Virtual Environment (Optional)
+```
 python -m venv venv
 source venv/bin/activate   # Linux / Mac
 venv\Scripts\activate      # Windows
-
+```
 3️⃣ Install Dependencies
+```
 pip install flask pymysql werkzeug
 
 🗄 Database Setup
@@ -143,10 +149,11 @@ transactiondata
 photodata
 
 Configure database connection inside mylib.py.
-
+```
 ▶️ Run the Application
+```
 python app.py
-
+```
 
 Open browser and visit:
 
