@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-=======
-#student fees managment
->>>>>>> 858617f52d7b293272fd561c17641053a5e482c5
 🎓 Student Management & Accounting System (Flask)
 
 A Flask-based web application designed to manage students, courses, fees, deposits, admins, and accountants with role-based access control.
@@ -102,10 +98,7 @@ File Uploads: Werkzeug
 Session Management: Flask Sessions
 
 📁 Project Structure
-<<<<<<< HEAD
 ```
-=======
->>>>>>> 858617f52d7b293272fd561c17641053a5e482c5
 project/
 │
 ├── app.py
@@ -116,12 +109,10 @@ project/
 │   ├── *.html
 │
 └── README.md
-<<<<<<< HEAD
 ```
-
 ⚙️ Installation & Setup
-```
 1️⃣ Clone the Repository
+```
 git clone https://github.com/your-username/student-management-flask.git
 cd student-management-flask
 ```
@@ -134,24 +125,10 @@ venv\Scripts\activate      # Windows
 ```
 3️⃣ Install Dependencies
 ```
-=======
-
-⚙️ Installation & Setup
-1️⃣ Clone the Repository
-git clone https://github.com/your-username/student-management-flask.git
-cd student-management-flask
-
-2️⃣ Create Virtual Environment (Optional)
-python -m venv venv
-source venv/bin/activate   # Linux / Mac
-venv\Scripts\activate      # Windows
-
-3️⃣ Install Dependencies
->>>>>>> 858617f52d7b293272fd561c17641053a5e482c5
 pip install flask pymysql werkzeug
-
+```
 🗄 Database Setup
-
+```
 Create a MySQL database and required tables:
 
 Required Tables
@@ -171,18 +148,11 @@ transactiondata
 photodata
 
 Configure database connection inside mylib.py.
-<<<<<<< HEAD
 ```
 ▶️ Run the Application
 ```
 python app.py
 ```
-=======
-
-▶️ Run the Application
-python app.py
-
->>>>>>> 858617f52d7b293272fd561c17641053a5e482c5
 
 Open browser and visit:
 
@@ -233,8 +203,4 @@ Fork the repository, raise issues, or submit pull requests.
 📄 License
 
 This project is intended for educational purposes.
-<<<<<<< HEAD
 Free to modify and extend.
-=======
-Free to modify and extend.
->>>>>>> 858617f52d7b293272fd561c17641053a5e482c5
